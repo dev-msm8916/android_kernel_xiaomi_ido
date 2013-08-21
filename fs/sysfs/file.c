@@ -567,7 +567,6 @@ int sysfs_add_file(struct sysfs_dirent *dir_sd, const struct attribute *attr,
  *	@kobj:	object we're creating for.
  *	@attr:	attribute descriptor.
  */
-
 int sysfs_create_file(struct kobject * kobj, const struct attribute * attr)
 {
 	BUG_ON(!kobj || !kobj->sd || !attr);
@@ -575,6 +574,7 @@ int sysfs_create_file(struct kobject * kobj, const struct attribute * attr)
 	return sysfs_add_file(kobj->sd, attr, SYSFS_KOBJ_ATTR);
 
 }
+EXPORT_SYMBOL_GPL(sysfs_create_file);
 
 int sysfs_create_files(struct kobject *kobj, const struct attribute **ptr)
 {
@@ -588,6 +588,7 @@ int sysfs_create_files(struct kobject *kobj, const struct attribute **ptr)
 			sysfs_remove_file(kobj, ptr[i]);
 	return err;
 }
+EXPORT_SYMBOL_GPL(sysfs_create_files);
 
 /**
  * sysfs_add_file_to_group - add an attribute file to a pre-existing group.
@@ -652,7 +653,6 @@ int sysfs_chmod_file(struct kobject *kobj, const struct attribute *attr,
 }
 EXPORT_SYMBOL_GPL(sysfs_chmod_file);
 
-
 /**
  *	sysfs_remove_file - remove an object attribute.
  *	@kobj:	object we're acting for.
@@ -660,7 +660,6 @@ EXPORT_SYMBOL_GPL(sysfs_chmod_file);
  *
  *	Hash the attribute name and kill the victim.
  */
-
 void sysfs_remove_file(struct kobject * kobj, const struct attribute * attr)
 {
 	const void *ns;
@@ -670,6 +669,7 @@ void sysfs_remove_file(struct kobject * kobj, const struct attribute * attr)
 
 	sysfs_hash_and_remove(kobj->sd, ns, attr->name);
 }
+EXPORT_SYMBOL_GPL(sysfs_remove_file);
 
 void sysfs_remove_files(struct kobject * kobj, const struct attribute **ptr)
 {
@@ -677,6 +677,7 @@ void sysfs_remove_files(struct kobject * kobj, const struct attribute **ptr)
 	for (i = 0; ptr[i]; i++)
 		sysfs_remove_file(kobj, ptr[i]);
 }
+EXPORT_SYMBOL_GPL(sysfs_remove_files);
 
 /**
  * sysfs_remove_file_from_group - remove an attribute file from a group.
@@ -791,9 +792,3 @@ int sysfs_schedule_callback(struct kobject *kobj, void (*func)(void *),
 	return 0;
 }
 EXPORT_SYMBOL_GPL(sysfs_schedule_callback);
-
-
-EXPORT_SYMBOL_GPL(sysfs_create_file);
-EXPORT_SYMBOL_GPL(sysfs_remove_file);
-EXPORT_SYMBOL_GPL(sysfs_remove_files);
-EXPORT_SYMBOL_GPL(sysfs_create_files);
