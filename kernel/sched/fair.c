@@ -903,8 +903,6 @@ static void task_numa_placement(struct task_struct *p)
 	int seq, nid, max_nid = -1;
 	unsigned long max_faults = 0;
 
-	if (!p->mm)	/* for example, ksmd faulting in a user's mm */
-		return;
 	seq = ACCESS_ONCE(p->mm->numa_scan_seq);
 	if (p->numa_scan_seq == seq)
 		return;
@@ -969,6 +967,10 @@ void task_numa_fault(int last_nid, int node, int pages, bool migrated)
 	int priv;
 
 	if (!sched_feat_numa(NUMA))
+		return;
+
+	/* for example, ksmd faulting in a user's mm */
+	if (!p->mm)
 		return;
 
 	/* For now, do not attempt to detect private/shared accesses */
