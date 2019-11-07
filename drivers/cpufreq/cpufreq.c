@@ -712,6 +712,9 @@ static ssize_t show(struct kobject *kobj, struct attribute *attr, char *buf)
 	if (!fattr->show)
 		return -EIO;
 
+	if (!fattr->show)
+		return -EIO;
+
 	down_read(&policy->rwsem);
 
 	if (fattr->show)
